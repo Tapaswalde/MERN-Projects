@@ -1,16 +1,28 @@
-const express=require('express');
+const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const connectDB = require("./config/db");
 
-const app=express();
 
-//basic middleware
+dotenv.config(); // Load environment variables FIRST
+
+connectDB(); // Connect to MongoDB
+
+const app = express();
+
+// Middleware
+app.use(cors());
 app.use(express.json());
 
-app.get('/',(req,res)=>{
-    res.send('Hello World');
-})
+// Routes
+app.use("/api/user",require('./routes/userRoutes'));
 
-app.listen(5000,()=>{
-    console.log('Dog is running on port 5000');
-})
 
-module.exports=app;
+// Port setup
+const PORT = process.env.PORT || 8000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
+
+module.exports = app;
