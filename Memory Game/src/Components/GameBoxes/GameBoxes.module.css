@@ -1,0 +1,28 @@
+.card {
+  aspect-ratio: 1 / 1;  /* Keeps square shape */
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: clamp(1.5rem, 4vw, 2.5rem); /* Responsive emoji size */
+
+  background: rgba(59, 130, 246, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+/* Hover Effect */
+.card:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 12px 25px rgba(37, 99, 235, 0.4);
+}
+
+/* Active Click */
+.card:active {
+  transform: scale(0.95);
+}

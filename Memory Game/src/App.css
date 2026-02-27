@@ -10,3 +10,14 @@ body {
   align-items: center;
   padding-top: 30px;
 }
+
+.game-board {
+  width: 95%;
+  max-width: 500px;
+  margin: 30px auto;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Always 4 columns */
+  gap: 15px;
+}
+
