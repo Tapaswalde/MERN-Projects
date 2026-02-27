@@ -6,51 +6,108 @@ import './App.css'
 
 const App = () => {
   const fruits = ["🍎", "🍌", "🍇", "🍉", "🍓", "🍍", "🥭", "🍒","🍎", "🍌", "🍇", "🍉", "🍓", "🍍", "🥭", "🍒"];
-  const [card,setCard]=React.useState([]);
 
-  const initializeGame=()=>{
+  //Imp states to handle 
+  const [cards, setCards] = useState([]);
+  const [firstCard, setFirstCard] = useState(null);
+  const [secondCard, setSecondCard] = useState(null);
+  const [moves, setMoves] = useState(0);
+  const [disabled, setDisabled] = useState(false);
+
+  //Let's initalize the game 
+  const initializeGame = () => {
+    //Shuffled the fruits array 
     const shuffledFruits=fruits.sort(()=>Math.random()-0.5);
-
+    //adding additional info 
     const finalFruits=shuffledFruits.map((fruit,index)=>{
       return{
         id:index,
         value:fruit,
-        isFlipped:false,
         isMatched:false,
+        isFlipped:false
       }
     })
-    console.log(finalFruits);
-    setCard(finalFruits);
+    setCards(finalFruits);
+    setMoves(0);
+    setFirstCard(null);
+    setSecondCard(null);
   }
+
+
+  //Hanlde card click
+   const handleCardClick = (card) => {
+    if (disabled) return;
+    if (card.isFlipped || card.isMatched) return;
+
+    const updatedCards = cards.map((c) =>
+      c.id === card.id ? { ...c, isFlipped: true } : c
+    );
+
+    setCards(updatedCards);
+
+    if (!firstCard) {
+      setFirstCard(card);
+    } else {
+      setSecondCard(card);
+      setDisabled(true);
+      setMoves((prev) => prev + 1);
+    }
+  };
+
+
+    useEffect(() => {
+    if (firstCard && secondCard) {
+      if (firstCard.value === secondCard.value) {
+        // MATCH
+        setCards((prev) =>
+          prev.map((card) =>
+            card.value === firstCard.value
+              ? { ...card, isMatched: true }
+              : card
+          )
+        );
+        resetTurn();
+      } else {
+        // NOT MATCH
+        setTimeout(() => {
+          setCards((prev) =>
+            prev.map((card) =>
+              card.id === firstCard.id || card.id === secondCard.id
+                ? { ...card, isFlipped: false }
+                : card
+            )
+          );
+          resetTurn();
+        }, 800);
+      }
+    }
+  }, [secondCard]);
+
+
+    const resetTurn = () => {
+    setFirstCard(null);
+    setSecondCard(null);
+    setDisabled(false);
+  };
+
+
+
 
   //To initialize the game when the component mounts
   useEffect(()=>{
     initializeGame();
   },[])
 
-  const handleCardClick=(card)=>{
-    //Dont allow flipped or matched cards to be do again
-    if(card.isFlipped || card.isMatched){
-      return;
-    }
-    const updatedCard=card.map((c)=>{
-      if(c.id===card.id){
-        return {...c,isFlipped:true};
-      }else{
-        return c;
-      }
-    })
-    setCard(updatedCard);
-  }
+  
+  
 
   return (
     <div className='container'>
       <GameHeader />
       <div className='game-board'>
         {
-          //It is the array of objects with all information about the card, so we will map through it and pass the value to the GameBoxes component
-          card.map((fruit,index)=>(
-            <GameBoxes key={index} fruit={fruit} onClick={handleCardClick}/>
+          cards.map((card)=>(
+            <GameBoxes key={card.id} card={card} handleCardClick={handleCardClick}/>
           ))
         }
       </div>
