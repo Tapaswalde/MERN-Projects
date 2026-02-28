@@ -13,6 +13,7 @@ const App = () => {
   const [secondCard, setSecondCard] = useState(null);
   const [moves, setMoves] = useState(0);
   const [disabled, setDisabled] = useState(false);
+  const[score,setScore]=useState(0);
 
   //Let's initalize the game 
   const initializeGame = () => {
@@ -28,6 +29,7 @@ const App = () => {
       }
     })
     setCards(finalFruits);
+    setScore(0);
     setMoves(0);
     setFirstCard(null);
     setSecondCard(null);
@@ -38,7 +40,7 @@ const App = () => {
    const handleCardClick = (card) => {
     if (disabled) return;
     if (card.isFlipped || card.isMatched) return;
-
+    setMoves((prev) => prev + 1);
     const updatedCards = cards.map((c) =>
       c.id === card.id ? { ...c, isFlipped: true } : c
     );
@@ -58,6 +60,7 @@ const App = () => {
     useEffect(() => {
     if (firstCard && secondCard) {
       if (firstCard.value === secondCard.value) {
+        setScore((prev) => prev + 10);
         // MATCH
         setCards((prev) =>
           prev.map((card) =>
@@ -103,7 +106,7 @@ const App = () => {
 
   return (
     <div className='container'>
-      <GameHeader />
+      <GameHeader score={score} initializeGame={initializeGame} moves={moves}/>
       <div className='game-board'>
         {
           cards.map((card)=>(
