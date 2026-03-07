@@ -31,7 +31,7 @@ app.get("/posts",async(req,res)=>{
 
   return res.status(200).json({
     message:"Posts fetched successfully",
-    data:posts
+    posts:posts
   })
 })
 
