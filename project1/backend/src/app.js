@@ -8,8 +8,8 @@ const upload = multer();
 
 app.use(cors({
   origin: [
-    'http://localhost:3000',
-    'https://mern-projects-six-coral.vercel.app/',                      //  main URL   
+    'http://localhost:5173',                             
+    'https://mern-projects-six-coral.vercel.app',        
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type'],
