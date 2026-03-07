@@ -1,6 +1,6 @@
 // ─── src/api/postsApi.js ──────────────────────────────────────────────────────
 
-export const BASE_URL = 'http://localhost:5000' // 🔁 your backend URL
+export const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
 /**
  * Fetch all posts.

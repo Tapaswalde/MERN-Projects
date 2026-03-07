@@ -7,7 +7,11 @@ const app = express();
 const upload = multer();
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: [
+    'http://localhost:3000',                                      
+    'https://folio-beryl-seven.vercel.app',                      //  main URL
+    'https://folio-git-main-tapaswaldes-projects.vercel.app',    
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type'],
 }))
