@@ -8,9 +8,8 @@ const upload = multer();
 
 app.use(cors({
   origin: [
-    'http://localhost:3000',                                      
-    'https://folio-beryl-seven.vercel.app',                      //  main URL
-    'https://folio-git-main-tapaswaldes-projects.vercel.app',    
+    'http://localhost:3000',
+    'https://mern-projects-six-coral.vercel.app/',                      //  main URL   
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type'],
